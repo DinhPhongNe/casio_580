@@ -1,5 +1,6 @@
 import sys
 import math
+import random
 from math import pi, e, sin, cos, tan, log, factorial, sqrt, ceil, floor, exp
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QMainWindow, QApplication, QInputDialog
@@ -38,7 +39,7 @@ class Calc(QMainWindow):
         self.button_equal.clicked.connect(self.button_onclick)
         self.button_rnd.clicked.connect(self.button_onclick)
         self.button_ran.clicked.connect(self.button_onclick)
-        self.button_ranInt.clicked.connect(self.button_onclick)
+        self.button_ranInt.clicked.connect(self.ranInt)
         self.button_pi.clicked.connect(self.button_onclick)
         self.button_e.clicked.connect(self.button_onclick)
         self.button_percentage.clicked.connect(self.button_onclick)
@@ -361,13 +362,32 @@ class Calc(QMainWindow):
             self.main_label_2.setText(f"oct({current_text}) = {result}")
         except ValueError:
             self.main_label.setText("Error: Invalid input")
+            
+    def ranInt(self):
+        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter two integers separated by comma (e.g., 1, 10):')
+        if ok:
+            try:
+                nums = [int(num.strip()) for num in text.split(",")]
+                if len(nums) != 2:
+                    raise ValueError("Please enter two integers separated by comma.")
+                start, end = nums
+                if start > end:
+                    start, end = end, start
+                result = random.randint(start, end)
+                self.main_label.setText(str(result))
+                self.main_label_2.setText(f"ranInt({start}, {end}) = {result}")
+            except Exception as e:
+                self.main_label.setText("Error: Invalid input")
+
+
+
 
 
 class Menu(QMainWindow):
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, parent=None) -> None:
+        super().__init__(parent)
         uic.loadUi("menu.ui", self)
-        self.goBack.clicked.connect(self.back)
+        self.goBack.clicked.connect(self.back_forBack)
         
         self.calculate.clicked.connect(self.back)
         self.complex.clicked.connect(self.back)
@@ -384,8 +404,15 @@ class Menu(QMainWindow):
         
         
     def back(self):
+        self.parent().current_mode = self.sender().text()
         menu.hide()
         window.show()
+        self.parent().mode_label.setText(self.parent().current_mode)
+        
+    def back_forBack(self):
+        menu.hide()
+        window.show()
+
             
 
 
@@ -395,6 +422,6 @@ class Menu(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = Calc()
-    menu = Menu()
+    menu = Menu(window)
     window.show()
     sys.exit(app.exec())

@@ -607,7 +607,7 @@ border-radius: 50px;</string>
       <x>190</x>
       <y>510</y>
       <width>51</width>
-      <height>25</height>
+      <height>21</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_9">
@@ -630,7 +630,7 @@ color: #9d8a54;
 border-radius: 50px;</string>
        </property>
        <property name="text">
-        <string>.</string>
+        <string>,</string>
        </property>
       </widget>
      </item>
@@ -2265,7 +2265,7 @@ border-radius: 10px;</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>image-removebg-preview.png</pixmap>
+     <pixmap>../../.designer/backup/image-removebg-preview.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -2681,7 +2681,7 @@ border-radius: 50px;</string>
       <x>70</x>
       <y>410</y>
       <width>56</width>
-      <height>25</height>
+      <height>21</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_39">
@@ -3000,7 +3000,7 @@ border-radius: 50px;</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>bitex.png</pixmap>
+     <pixmap>../../.designer/backup/bitex.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -3099,7 +3099,7 @@ border-radius: 50px;</string>
      <rect>
       <x>0</x>
       <y>110</y>
-      <width>171</width>
+      <width>181</width>
       <height>41</height>
      </rect>
     </property>
@@ -3125,9 +3125,9 @@ color: black;</string>
    <widget class="QLabel" name="mode_label">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>180</x>
       <y>110</y>
-      <width>201</width>
+      <width>191</width>
       <height>41</height>
      </rect>
     </property>
