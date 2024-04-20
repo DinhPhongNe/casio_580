@@ -65,10 +65,10 @@ class Calc(QMainWindow):
         self.button_6.clicked.connect(self.button_onclick)
         self.button_times.clicked.connect(self.button_onclick)
         self.button_split.clicked.connect(self.button_onclick)
-        self.button_nPr.clicked.connect(self.button_onclick)
-        self.button_gcd.clicked.connect(self.button_onclick)
-        self.button_ncr.clicked.connect(self.button_onclick)
-        self.button_lcm.clicked.connect(self.button_onclick)
+        self.button_nPr.clicked.connect(self.npr)
+        self.button_gcd.clicked.connect(self.gcd)
+        self.button_ncr.clicked.connect(self.ncr)
+        self.button_lcm.clicked.connect(self.lcm)
         
         # dòng số 4 trong app
         self.button_7.clicked.connect(self.button_onclick)
@@ -76,7 +76,7 @@ class Calc(QMainWindow):
         self.button_9.clicked.connect(self.button_onclick)
         self.button_del.clicked.connect(self.button_onclick)
         self.button_allClear.clicked.connect(self.button_onclick)
-        self.button_CONST.clicked.connect(self.button_onclick)
+        self.button_CONST.clicked.connect(self.const_clicked)
         self.button_CONV.clicked.connect(self.button_onclick)
         self.button_RESET.clicked.connect(self.button_onclick)
         self.button_INS.clicked.connect(self.button_onclick)
@@ -141,7 +141,7 @@ class Calc(QMainWindow):
         self.button_oct.clicked.connect(self.oct)
         
         # dòng số 8 trong app
-        self.button_optn.clicked.connect(self.button_onclick)
+        self.button_optn.clicked.connect(self.optn)
         self.button_calc.clicked.connect(self.calc)
         self.button_tichphan.clicked.connect(self.button_onclick)
         self.button_xSymbol.clicked.connect(self.button_onclick)
@@ -163,6 +163,20 @@ class Calc(QMainWindow):
         # dòng số 10 trong app
 
 
+    def off(self):
+        window.close()
+        
+    def menu(self):
+        menu.show()
+        
+    def optn(self):
+        optn.show()
+        
+    def const_clicked(self):
+        const.show()
+        
+    def mode(self):
+        pass   
 
         
     def calculate_expression(self, expression):
@@ -174,6 +188,33 @@ class Calc(QMainWindow):
             sub_expression = expression[start + 1:end]
             result = str(eval(sub_expression))
             expression = expression[:start] + result + expression[end + 1:]
+        
+        # Handle nPr and nCr calculations
+        if "P" in expression:
+            parts = expression.split("P")
+            if len(parts) == 2:
+                try:
+                    n = int(parts[0])
+                    r = int(parts[1])
+                    if r > n:
+                        raise ValueError("r cannot be greater than n")
+                    result = factorial(n) // factorial(n - r)
+                    expression = str(result)
+                except ValueError:
+                    expression = "Error: Invalid input"
+        elif "C" in expression:
+            parts = expression.split("C")
+            if len(parts) == 2:
+                try:
+                    n = int(parts[0])
+                    r = int(parts[1])
+                    if r > n:
+                        raise ValueError("r cannot be greater than n")
+                    result = factorial(n) // (factorial(r) * factorial(n - r))
+                    expression = str(result)
+                except ValueError:
+                    expression = "Error: Invalid input"
+    
         try:
             final_result = str(eval(expression))
             self.main_label.setText(final_result)
@@ -182,6 +223,7 @@ class Calc(QMainWindow):
             self.main_label.setText("Error: Division by zero")
         except Exception as e:
             self.main_label.setText("Error: Invalid expression")
+
 
     def button_onclick(self):
         button = self.sender()
@@ -204,13 +246,7 @@ class Calc(QMainWindow):
             self.main_label.setText(current_text + button.text())
             self.main_label_2.setText(current_text + button.text())
 
-            
-    def off(self):
-        window.close()
-        
-    def menu(self):
-        menu.show()
-        
+
         
     def feature(self):
         button = self.sender()
@@ -228,9 +264,6 @@ class Calc(QMainWindow):
             self.feature_label.setText("")
         elif button.text() == "ALPHA":
             self.feature_label.setText("alpha")
-            
-    def mode(self):
-        pass
 
         
         
@@ -379,6 +412,43 @@ class Calc(QMainWindow):
             except Exception as e:
                 self.main_label.setText("Error: Invalid input")
 
+    def gcd(self):
+        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter two integers separated by comma (e.g., 6, 4):')
+        if ok:
+            try:
+                nums = [int(num.strip()) for num in text.split(",")]
+                if len(nums) != 2:
+                    raise ValueError("Please enter two integers separated by comma.")
+                result = math.gcd(nums[0], nums[1])
+                self.main_label.setText(str(result))
+                self.main_label_2.setText(f"GCD({nums[0]}, {nums[1]}) = {result}")
+            except Exception as e:
+                self.main_label.setText("Error: Invalid input")
+
+    def lcm(self):
+        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter two integers separated by comma (e.g., 6, 4):')
+        if ok:
+            try:
+                nums = [int(num.strip()) for num in text.split(",")]
+                if len(nums) != 2:
+                    raise ValueError("Please enter two integers separated by comma.")
+                result = nums[0] * nums[1] // math.gcd(nums[0], nums[1])
+                self.main_label.setText(str(result))
+                self.main_label_2.setText(f"LCM({nums[0]}, {nums[1]}) = {result}")
+            except Exception as e:
+                self.main_label.setText("Error: Invalid input")
+                
+    def npr(self):
+        current_text = self.main_label.text()
+        if "P" not in current_text:
+            self.main_label.setText(current_text + "P")
+            self.main_label_2.setText(current_text + "P")
+
+    def ncr(self):
+        current_text = self.main_label.text()
+        if "C" not in current_text:
+            self.main_label.setText(current_text + "C")
+            self.main_label_2.setText(current_text + "C")
 
 
 
@@ -414,14 +484,43 @@ class Menu(QMainWindow):
         window.show()
 
             
+class OPTN(QMainWindow):
+    def __init__(self, parent=None) -> None:
+        super().__init__(parent)
+        uic.loadUi("optn.ui", self)
+        
+        self.goBack.clicked.connect(self.back_forBack)
+        self.HyperbolicFunc.clicked.connect(self.back_forBack)
+        self.AngleUnit.clicked.connect(self.back_forBack)
+        self.EngineerSymbol.clicked.connect(self.back_forBack)
 
+    def back_forBack(self):
+        optn.hide()
+        window.show()
+        
+class CONST(QMainWindow):
+    def __init__(self, parent=None) -> None:
+        super().__init__(parent)
+        uic.loadUi("const.ui", self)
+        self.goBack.clicked.connect(self.back_forBack)
+        
+        self.Universal.clicked.connect(self.back_forBack)
+        self.Electromagnetic.clicked.connect(self.back_forBack)
+        self.AtomicANuclear.clicked.connect(self.back_forBack)
+        self.PhysicoChem.clicked.connect(self.back_forBack)
+        self.AdoptedValues.clicked.connect(self.back_forBack)
+        self.Other.clicked.connect(self.back_forBack)
 
-
+    def back_forBack(self):
+        const.hide()
+        window.show()
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = Calc()
+    const = CONST(window)
     menu = Menu(window)
+    optn = OPTN(window)
     window.show()
     sys.exit(app.exec())
