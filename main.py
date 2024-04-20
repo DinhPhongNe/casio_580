@@ -13,6 +13,23 @@ class Calc(QMainWindow):
         super().__init__()
         uic.loadUi("calc.ui", self)
         
+        self.modes = {
+            "Calculate": "Calculate",
+            "Complex": "Complex",
+            "Base-N": "Base-N",
+            "Matrix": "Matrix",
+            "Statistics": "Statistics",
+            "Distribution": "Distribution",
+            "Table": "Table",
+            "EquationFunc": "EquationFunc",
+            "Inequality": "Inequality",
+            "Verify": "Verify",
+            "Ratio": "Ratio",
+        }
+        self.current_mode = "Calculate"
+        self.mode_label.setText(self.current_mode)
+
+        
         # dòng số 1 trong app
         self.button_0.clicked.connect(self.button_onclick)
         self.button_dots.clicked.connect(self.button_onclick)
@@ -114,13 +131,13 @@ class Calc(QMainWindow):
         self.button_baCan.clicked.connect(self.button_onclick)
         self.button_MoDong.clicked.connect(self.button_onclick)
         self.button_xmu3.clicked.connect(self.button_onclick)
-        self.button_dec.clicked.connect(self.button_onclick)
+        self.button_dec.clicked.connect(self.dec)
         self.button_canchamhoi.clicked.connect(self.button_onclick)
-        self.button_hex.clicked.connect(self.button_onclick)
+        self.button_hex.clicked.connect(self.hex)
         self.button_muoiMuChamHoi.clicked.connect(self.button_onclick)
-        self.button_bin.clicked.connect(self.button_onclick)
+        self.button_bin.clicked.connect(self.bin)
         self.button_mu.clicked.connect(self.button_onclick)
-        self.button_oct.clicked.connect(self.button_onclick)
+        self.button_oct.clicked.connect(self.oct)
         
         # dòng số 8 trong app
         self.button_optn.clicked.connect(self.button_onclick)
@@ -190,6 +207,9 @@ class Calc(QMainWindow):
     def off(self):
         window.close()
         
+    def menu(self):
+        menu.show()
+        
         
     def feature(self):
         button = self.sender()
@@ -208,8 +228,11 @@ class Calc(QMainWindow):
         elif button.text() == "ALPHA":
             self.feature_label.setText("alpha")
             
-    def menu(self):
+    def mode(self):
         pass
+
+        
+        
     
     def addEqual(self):
         current_text = self.main_label.text()
@@ -298,8 +321,72 @@ class Calc(QMainWindow):
             self.main_label_2.setText(f"tan({current_text}) = {result}")
         except ValueError:
             self.main_label.setText("Error: Invalid input")
+            
+    def dec(self):
+        current_text = self.main_label.text()
+        try:
+            num = int(current_text, 2)  # Chuyển từ chuỗi nhị phân sang số thập phân
+            result = str(num)
+            self.main_label.setText(result)
+            self.main_label_2.setText(f"dec({current_text}) = {result}")
+        except ValueError:
+            self.main_label.setText("Error: Invalid input")
+
+    def hex(self):
+        current_text = self.main_label.text()
+        try:
+            num = int(current_text, 16)  # Chuyển từ chuỗi hex sang số thập phân
+            result = hex(num)[2:]  # Lấy phần sau "0x" của kết quả
+            self.main_label.setText(result)
+            self.main_label_2.setText(f"hex({current_text}) = {result}")
+        except ValueError:
+            self.main_label.setText("Error: Invalid input")
+
+    def bin(self):
+        current_text = self.main_label.text()
+        try:
+            num = int(current_text, 2)  # Chuyển từ chuỗi nhị phân sang số thập phân
+            result = bin(num)[2:]  # Lấy phần sau "0b" của kết quả
+            self.main_label.setText(result)
+            self.main_label_2.setText(f"bin({current_text}) = {result}")
+        except ValueError:
+            self.main_label.setText("Error: Invalid input")
+
+    def oct(self):
+        current_text = self.main_label.text()
+        try:
+            num = int(current_text, 8)  # Chuyển từ chuỗi octal sang số thập phân
+            result = oct(num)[2:]  # Lấy phần sau "0o" của kết quả
+            self.main_label.setText(result)
+            self.main_label_2.setText(f"oct({current_text}) = {result}")
+        except ValueError:
+            self.main_label.setText("Error: Invalid input")
 
 
+class Menu(QMainWindow):
+    def __init__(self) -> None:
+        super().__init__()
+        uic.loadUi("menu.ui", self)
+        self.goBack.clicked.connect(self.back)
+        
+        self.calculate.clicked.connect(self.back)
+        self.complex.clicked.connect(self.back)
+        self.baseN.clicked.connect(self.back)
+        self.Matrix.clicked.connect(self.back)
+        self.vector.clicked.connect(self.back)
+        self.statistics.clicked.connect(self.back)
+        self.distribution.clicked.connect(self.back)
+        self.table.clicked.connect(self.back)
+        self.equationFunc.clicked.connect(self.back)
+        self.inequality.clicked.connect(self.back)
+        self.verify.clicked.connect(self.back)
+        self.ratio.clicked.connect(self.back)
+        
+        
+    def back(self):
+        menu.hide()
+        window.show()
+            
 
 
 
@@ -308,5 +395,6 @@ class Calc(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = Calc()
+    menu = Menu()
     window.show()
     sys.exit(app.exec())

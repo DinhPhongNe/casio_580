@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>370</width>
+    <width>371</width>
     <height>775</height>
    </rect>
   </property>
@@ -2681,7 +2681,7 @@ border-radius: 50px;</string>
       <x>70</x>
       <y>410</y>
       <width>56</width>
-      <height>30</height>
+      <height>25</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_39">
@@ -2709,7 +2709,7 @@ border-radius: 50px;</string>
       <widget class="QPushButton" name="button_baCan">
        <property name="font">
         <font>
-         <pointsize>17</pointsize>
+         <pointsize>14</pointsize>
         </font>
        </property>
        <property name="cursor">
@@ -3099,7 +3099,7 @@ border-radius: 50px;</string>
      <rect>
       <x>0</x>
       <y>110</y>
-      <width>371</width>
+      <width>171</width>
       <height>41</height>
      </rect>
     </property>
@@ -3117,6 +3117,34 @@ color: black;</string>
     </property>
     <property name="text">
      <string>Feature</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="mode_label">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>110</y>
+      <width>201</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>ForbiddenCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:#d0e6da ;
+color: black;</string>
+    </property>
+    <property name="text">
+     <string>Mode</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
