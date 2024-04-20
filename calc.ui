@@ -607,7 +607,7 @@ border-radius: 50px;</string>
       <x>190</x>
       <y>510</y>
       <width>51</width>
-      <height>21</height>
+      <height>25</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_9">
@@ -2265,7 +2265,7 @@ border-radius: 10px;</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../../.designer/backup/image-removebg-preview.png</pixmap>
+     <pixmap>image-removebg-preview.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -2681,7 +2681,7 @@ border-radius: 50px;</string>
       <x>70</x>
       <y>410</y>
       <width>56</width>
-      <height>21</height>
+      <height>25</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_39">
@@ -3000,7 +3000,7 @@ border-radius: 50px;</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../../.designer/backup/bitex.png</pixmap>
+     <pixmap>bitex.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>

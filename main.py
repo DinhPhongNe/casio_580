@@ -159,7 +159,7 @@ class Calc(QMainWindow):
         self.button_alpha_2.clicked.connect(self.feature)
         self.button_menu.clicked.connect(self.menu)
         self.button_on.clicked.connect(self.button_onclick)
-        self.button_setup.clicked.connect(self.button_onclick)
+        self.button_setup.clicked.connect(self.setup_clicked)
         # dòng số 10 trong app
 
 
@@ -174,6 +174,9 @@ class Calc(QMainWindow):
         
     def const_clicked(self):
         const.show()
+        
+    def setup_clicked(self):
+        setup.show()
         
     def mode(self):
         pass   
@@ -515,10 +518,34 @@ class CONST(QMainWindow):
         const.hide()
         window.show()
 
+class SETUP(QMainWindow):
+    def __init__(self, parent=None) -> None:
+        super().__init__(parent)
+        uic.loadUi("Setup.ui", self)
+        self.goBack.clicked.connect(self.back_forBack)
+        
+        self.InputOutput.clicked.connect(self.back_forBack)
+        self.AngleUnit.clicked.connect(self.back_forBack)
+        self.NumberFomat.clicked.connect(self.back_forBack)
+        self.EngineerSymbol.clicked.connect(self.back_forBack)
+        self.FractionResult.clicked.connect(self.back_forBack)
+        self.Complex.clicked.connect(self.back_forBack)
+        self.Statistics.clicked.connect(self.back_forBack)
+        self.EquationFunction.clicked.connect(self.back_forBack)
+        self.table.clicked.connect(self.back_forBack)
+        self.RecurringDec.clicked.connect(self.back_forBack)
+        self.DecimalMark.clicked.connect(self.back_forBack)
+        self.Language.clicked.connect(self.back_forBack)
+        self.Contrast.clicked.connect(self.back_forBack)
+
+    def back_forBack(self):
+        setup.hide()
+        window.show()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = Calc()
+    setup = SETUP(window)
     const = CONST(window)
     menu = Menu(window)
     optn = OPTN(window)
