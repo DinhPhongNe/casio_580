@@ -13,7 +13,7 @@ class CALC(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
         uic.loadUi("calc.ui", self)
-        
+        self.setWindowTitle("Casio 580 - fx-580VNX")
         self.modes = {
             "Calculate": "Calculate",
             "Complex": "Complex",
@@ -113,11 +113,11 @@ class CALC(QMainWindow):
         self.button_b.clicked.connect(self.button_onclick)
         self.button_xdots.clicked.connect(self.tinhGiaiThua)
         self.button_c.clicked.connect(self.button_onclick)
-        self.button_sinMinus1.clicked.connect(self.button_onclick)
+        self.button_sinMinus1.clicked.connect(self.sinMinus)
         self.button_d.clicked.connect(self.button_onclick)
-        self.button_cosMinus1.clicked.connect(self.button_onclick)
+        self.button_cosMinus1.clicked.connect(self.cosMinus)
         self.button_e_2.clicked.connect(self.button_onclick)
-        self.button_tanMinus1.clicked.connect(self.button_onclick)
+        self.button_tanMinus1.clicked.connect(self.tanMinus)
         self.button_f.clicked.connect(self.button_onclick)
 
         # dòng số 7 trong app
@@ -125,8 +125,8 @@ class CALC(QMainWindow):
         self.button_cang.clicked.connect(self.button_onclick)
         self.button_xBinh.clicked.connect(self.button_onclick)
         self.button_xbinhChamHoi.clicked.connect(self.button_onclick)
-        self.button_logarit.clicked.connect(self.button_onclick)
-        self.button_ln.clicked.connect(self.button_onclick)
+        self.button_logarit.clicked.connect(self.logarit)
+        self.button_ln.clicked.connect(self.ln)
         self.button_honso.clicked.connect(self.button_onclick)
         self.button_chiaR.clicked.connect(self.button_onclick)
         self.button_baCan.clicked.connect(self.button_onclick)
@@ -508,6 +508,57 @@ class CALC(QMainWindow):
             self.main_label.setText("Error: Invalid input")
             
     def TichPhan(self):
+        equation, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter the equation to integrate (e.g., x^2):')
+        if ok:
+            try:
+                x = symbols('x')
+                result = integrate(sympify(equation), x)
+                self.main_label.setText(str(result))
+                self.main_label_2.setText(f"∫({equation})dx = {result}")
+            except Exception as e:
+                self.main_label.setText("Error: Invalid input")
+
+    
+    def sinMinus(self):
+        current_text = self.main_label.text()
+        try:
+            num = float(current_text)
+            if -1 <= num <= 1:
+                result = math.asin(num)
+                self.main_label.setText(str(result))
+                self.main_label_2.setText(f"sin^(-1)({current_text}) = {result}")
+            else:
+                self.main_label.setText("Error: Input out of range")
+        except ValueError:
+            self.main_label.setText("Error: Invalid input")
+
+    def cosMinus(self):
+        current_text = self.main_label.text()
+        try:
+            num = float(current_text)
+            if -1 <= num <= 1:
+                result = math.acos(num)
+                self.main_label.setText(str(result))
+                self.main_label_2.setText(f"cos^(-1)({current_text}) = {result}")
+            else:
+                self.main_label.setText("Error: Input out of range")
+        except ValueError:
+            self.main_label.setText("Error: Invalid input")
+
+    def tanMinus(self):
+        current_text = self.main_label.text()
+        try:
+            num = float(current_text)
+            result = math.atan(num)
+            self.main_label.setText(str(result))
+            self.main_label_2.setText(f"tan^(-1)({current_text}) = {result}")
+        except ValueError:
+            self.main_label.setText("Error: Invalid input")
+
+    def logarit(self):
+        pass
+    
+    def ln(self):
         pass
 
 
@@ -515,6 +566,7 @@ class MENU(QMainWindow):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         uic.loadUi("menu.ui", self)
+        self.setWindowTitle("Menu - fx-580VNX")
         self.goBack.clicked.connect(self.back_forBack)
         
         self.calculate.clicked.connect(self.back)
@@ -546,6 +598,7 @@ class OPTN(QMainWindow):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         uic.loadUi("optn.ui", self)
+        self.setWindowTitle("Option - fx-580VNX")
         
         self.goBack.clicked.connect(self.back_forBack)
         self.HyperbolicFunc.clicked.connect(self.back_forBack)
@@ -561,6 +614,7 @@ class CONST(QMainWindow):
         super().__init__(parent)
         uic.loadUi("const.ui", self)
         self.goBack.clicked.connect(self.back_forBack)
+        self.setWindowTitle("Const - fx-580VNX")
         
         self.Universal.clicked.connect(self.back_forBack)
         self.Electromagnetic.clicked.connect(self.back_forBack)
@@ -577,6 +631,7 @@ class SETUP(QMainWindow):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         uic.loadUi("Setup.ui", self)
+        self.setWindowTitle("Setup - fx-580VNX")
         self.goBack.clicked.connect(self.back_forBack)
         
         self.InputOutput.clicked.connect(self.back_forBack)
@@ -601,6 +656,7 @@ class CONV(QMainWindow):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         uic.loadUi("conv.ui", self)
+        self.setWindowTitle("Conv - fx-580VNX")
         # self.goBack.clicked.connect(self.back_forBack)
 
 if __name__ == "__main__":
