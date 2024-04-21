@@ -29,7 +29,7 @@ class CALC(QMainWindow):
         self.button_ranInt.clicked.connect(self.ranInt)
         self.button_pi.clicked.connect(self.button_onclick)
         self.button_e.clicked.connect(self.button_onclick)
-        self.button_percentage.clicked.connect(self.percentage)
+        self.button_percentage.clicked.connect(self.button_onclick)
         self.button_pre_ans.clicked.connect(self.button_onclick)
         self.button_estimate.clicked.connect(self.button_onclick)
         self.button_uien.clicked.connect(self.button_onclick)
@@ -110,7 +110,7 @@ class CALC(QMainWindow):
         # dòng số 7 trong app
         self.button_phanSo.clicked.connect(self.button_onclick)
         self.button_cang.clicked.connect(self.button_onclick)
-        self.button_xBinh.clicked.connect(self.power)
+        self.button_xBinh.clicked.connect(self.button_onclick)
         self.button_xbinhChamHoi.clicked.connect(self.button_onclick)
         self.button_logarit.clicked.connect(self.logarit)
         self.button_ln.clicked.connect(self.ln)
@@ -442,146 +442,12 @@ class CALC(QMainWindow):
         if "C" not in current_text:
             self.main_label.setText(current_text + "C")
             self.main_label_2.setText(current_text + "C")
-            
-    def TinhTong(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter the sequence (e.g., 1+2+3):')
-        if ok:
-            try:
-                result = sum(map(float, text.split("+")))
-                self.main_label.setText(str(result))
-                self.main_label_2.setText(f"∑({text}) = {result}")
-            except Exception as e:
-                self.main_label.setText("Error: Invalid input")
-
-    def TinhSanPham(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter the sequence (e.g., 1*2*3):')
-        if ok:
-            try:
-                result = math.prod(map(float, text.split("*")))
-                self.main_label.setText(str(result))
-                self.main_label_2.setText(f"∏({text}) = {result}")
-            except Exception as e:
-                self.main_label.setText("Error: Invalid input")
-                
-    def tinhGiaiThua(self):
-        current_text = self.main_label.text()
-        try:
-            num = int(current_text)
-            result = str(math.factorial(num))
-            self.main_label.setText(result)
-            self.main_label_2.setText(f"{num}! = {result}")
-        except ValueError:
-            self.main_label.setText("Error: Invalid input")
-        except OverflowError:
-            self.main_label.setText("Error: Result too large")
-            
-    def ran(self):
-        current_text = self.main_label.text()
-        try:
-            num = int(current_text)
-            result = str(random.randint(1, num))
-            self.main_label.setText(result)
-            self.main_label_2.setText(f"ran({num}) = {result}")
-        except ValueError:
-            self.main_label.setText("Error: Invalid input")
-
-    def roundRnd(self):
-        current_text = self.main_label.text()
-        try:
-            result = round(float(current_text), 1)
-            self.main_label.setText(str(result))
-            self.main_label_2.setText(f"round({current_text}) = {result}")
-        except ValueError:
-            self.main_label.setText("Error: Invalid input")
-            
-    def TichPhan(self):
-        equation, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter the equation to integrate (e.g., x^2):')
-        if ok:
-            try:
-                x = symbols('x')
-                result = integrate(sympify(equation), x)
-                self.main_label.setText(str(result))
-                self.main_label_2.setText(f"∫({equation})dx = {result}")
-            except Exception as e:
-                self.main_label.setText("Error: Invalid input")
-
-    
-    def sinMinus(self):
-        current_text = self.main_label.text()
-        try:
-            num = float(current_text)
-            if -1 <= num <= 1:
-                result = math.asin(num)
-                self.main_label.setText(str(result))
-                self.main_label_2.setText(f"sin^(-1)({current_text}) = {result}")
-            else:
-                self.main_label.setText("Error: Input out of range")
-        except ValueError:
-            self.main_label.setText("Error: Invalid input")
-
-    def cosMinus(self):
-        current_text = self.main_label.text()
-        try:
-            num = float(current_text)
-            if -1 <= num <= 1:
-                result = math.acos(num)
-                self.main_label.setText(str(result))
-                self.main_label_2.setText(f"cos^(-1)({current_text}) = {result}")
-            else:
-                self.main_label.setText("Error: Input out of range")
-        except ValueError:
-            self.main_label.setText("Error: Invalid input")
-
-    def tanMinus(self):
-        current_text = self.main_label.text()
-        try:
-            num = float(current_text)
-            result = math.atan(num)
-            self.main_label.setText(str(result))
-            self.main_label_2.setText(f"tan^(-1)({current_text}) = {result}")
-        except ValueError:
-            self.main_label.setText("Error: Invalid input")
 
     def logarit(self):
-        current_text = self.main_label.text()
-        try:
-            num = float(current_text.replace("log(", "").replace(")", ""))
-            result = math.log10(num)
-            self.main_label.setText(str(result))
-            self.main_label_2.setText(f"log({current_text}) = {result}")
-        except ValueError:
-            self.main_label.setText("Error: Invalid input")
-
+        pass
+    
     def ln(self):
-        current_text = self.main_label.text()
-        try:
-            num = float(current_text.replace("ln(", "").replace(")", ""))
-            result = math.log(num)
-            self.main_label.setText(str(result))
-            self.main_label_2.setText(f"ln({current_text}) = {result}")
-        except ValueError:
-            self.main_label.setText("Error: Invalid input")
-            
-    def power(self):
-        current_text = self.main_label.text()
-        try:
-            num = float(current_text)
-            result = num ** 2  # Hoặc có thể chọn mũ khác, ví dụ: num ** 3
-            self.main_label.setText(str(result))
-            self.main_label_2.setText(f"{current_text}^2 = {result}")
-        except ValueError:
-            self.main_label.setText("Error: Invalid input")
-
-    def percentage(self):
-        current_text = self.main_label.text()
-        try:
-            num, total = map(float, current_text.split('/'))
-            result = (num / total) * 100
-            self.main_label.setText(str(result))
-            self.main_label_2.setText(f"{num} is {result}% of {total}")
-        except (ValueError, ZeroDivisionError):
-            self.main_label.setText("Error: Invalid input")
-
+        pass
 
 
 class MENU(QMainWindow):
