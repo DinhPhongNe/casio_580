@@ -9,7 +9,7 @@ from sympy import sympify
 from PyQt6 import uic
 
 
-class Calc(QMainWindow):
+class CALC(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
         uic.loadUi("calc.ui", self)
@@ -37,8 +37,8 @@ class Calc(QMainWindow):
         self.button_x10.clicked.connect(self.button_onclick)
         self.button_ans.clicked.connect(self.button_onclick)
         self.button_equal.clicked.connect(self.button_onclick)
-        self.button_rnd.clicked.connect(self.button_onclick)
-        self.button_ran.clicked.connect(self.button_onclick)
+        self.button_rnd.clicked.connect(self.roundRnd)
+        self.button_ran.clicked.connect(self.ran)
         self.button_ranInt.clicked.connect(self.ranInt)
         self.button_pi.clicked.connect(self.button_onclick)
         self.button_e.clicked.connect(self.button_onclick)
@@ -77,7 +77,7 @@ class Calc(QMainWindow):
         self.button_del.clicked.connect(self.button_onclick)
         self.button_allClear.clicked.connect(self.button_onclick)
         self.button_CONST.clicked.connect(self.const_clicked)
-        self.button_CONV.clicked.connect(self.button_onclick)
+        self.button_CONV.clicked.connect(self.conv)
         self.button_RESET.clicked.connect(self.button_onclick)
         self.button_INS.clicked.connect(self.button_onclick)
         self.button_UNDO.clicked.connect(self.button_onclick)
@@ -111,7 +111,7 @@ class Calc(QMainWindow):
         self.button_a.clicked.connect(self.button_onclick)
         self.button_fact_2.clicked.connect(self.button_onclick)
         self.button_b.clicked.connect(self.button_onclick)
-        self.button_xdots.clicked.connect(self.button_onclick)
+        self.button_xdots.clicked.connect(self.tinhGiaiThua)
         self.button_c.clicked.connect(self.button_onclick)
         self.button_sinMinus1.clicked.connect(self.button_onclick)
         self.button_d.clicked.connect(self.button_onclick)
@@ -143,14 +143,14 @@ class Calc(QMainWindow):
         # dòng số 8 trong app
         self.button_optn.clicked.connect(self.optn)
         self.button_calc.clicked.connect(self.calc)
-        self.button_tichphan.clicked.connect(self.button_onclick)
+        self.button_tichphan.clicked.connect(self.TichPhan)
         self.button_xSymbol.clicked.connect(self.button_onclick)
         self.button_solve.clicked.connect(self.solve)
         self.button_equalSymbol.clicked.connect(self.addEqual)
         self.button_ddxPhanSo.clicked.connect(self.button_onclick)
         self.button_splitSymbol.clicked.connect(self.button_onclick)
-        self.button_kyHieuTong.clicked.connect(self.button_onclick)
-        self.button_kyHieuSanPham.clicked.connect(self.button_onclick)
+        self.button_kyHieuTong.clicked.connect(self.TinhTong)
+        self.button_kyHieuSanPham.clicked.connect(self.TinhSanPham)
         
         # dòng số 9 trong app
         self.button_shift.clicked.connect(self.feature)
@@ -158,7 +158,7 @@ class Calc(QMainWindow):
         self.button_shift_2.clicked.connect(self.feature)
         self.button_alpha_2.clicked.connect(self.feature)
         self.button_menu.clicked.connect(self.menu)
-        self.button_on.clicked.connect(self.button_onclick)
+        self.button_on.clicked.connect(self.mode)
         self.button_setup.clicked.connect(self.setup_clicked)
         # dòng số 10 trong app
 
@@ -177,6 +177,9 @@ class Calc(QMainWindow):
         
     def setup_clicked(self):
         setup.show()
+        
+    def conv(self):
+        conv.show()
         
     def mode(self):
         pass   
@@ -452,11 +455,63 @@ class Calc(QMainWindow):
         if "C" not in current_text:
             self.main_label.setText(current_text + "C")
             self.main_label_2.setText(current_text + "C")
+            
+    def TinhTong(self):
+        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter the sequence (e.g., 1+2+3):')
+        if ok:
+            try:
+                result = sum(map(float, text.split("+")))
+                self.main_label.setText(str(result))
+                self.main_label_2.setText(f"∑({text}) = {result}")
+            except Exception as e:
+                self.main_label.setText("Error: Invalid input")
+
+    def TinhSanPham(self):
+        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter the sequence (e.g., 1*2*3):')
+        if ok:
+            try:
+                result = math.prod(map(float, text.split("*")))
+                self.main_label.setText(str(result))
+                self.main_label_2.setText(f"∏({text}) = {result}")
+            except Exception as e:
+                self.main_label.setText("Error: Invalid input")
+                
+    def tinhGiaiThua(self):
+        current_text = self.main_label.text()
+        try:
+            num = int(current_text)
+            result = str(math.factorial(num))
+            self.main_label.setText(result)
+            self.main_label_2.setText(f"{num}! = {result}")
+        except ValueError:
+            self.main_label.setText("Error: Invalid input")
+        except OverflowError:
+            self.main_label.setText("Error: Result too large")
+            
+    def ran(self):
+        current_text = self.main_label.text()
+        try:
+            num = int(current_text)
+            result = str(random.randint(1, num))
+            self.main_label.setText(result)
+            self.main_label_2.setText(f"ran({num}) = {result}")
+        except ValueError:
+            self.main_label.setText("Error: Invalid input")
+
+    def roundRnd(self):
+        current_text = self.main_label.text()
+        try:
+            result = round(float(current_text), 1)
+            self.main_label.setText(str(result))
+            self.main_label_2.setText(f"round({current_text}) = {result}")
+        except ValueError:
+            self.main_label.setText("Error: Invalid input")
+            
+    def TichPhan(self):
+        pass
 
 
-
-
-class Menu(QMainWindow):
+class MENU(QMainWindow):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         uic.loadUi("menu.ui", self)
@@ -541,13 +596,20 @@ class SETUP(QMainWindow):
     def back_forBack(self):
         setup.hide()
         window.show()
+        
+class CONV(QMainWindow):
+    def __init__(self, parent=None) -> None:
+        super().__init__(parent)
+        uic.loadUi("conv.ui", self)
+        # self.goBack.clicked.connect(self.back_forBack)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = Calc()
+    window = CALC()
     setup = SETUP(window)
     const = CONST(window)
-    menu = Menu(window)
+    menu = MENU(window)
     optn = OPTN(window)
+    conv = CONV(window)
     window.show()
     sys.exit(app.exec())
